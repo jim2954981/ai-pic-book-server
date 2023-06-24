@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aitest.jim.aipicbookserver.service.mapper.WorkMapper">
+    <insert id="insertWork" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+        insert into work(user_id, create_time, update_time, title, story_abstract, read_time, child_age, `character`,
+                         first_pic)
+        values (#{work.userId}, now(), now(), #{work.title}, #{work.storyAbstract}, #{work.readTime},
+                #{work.childAge}, #{work.character}, #{work.firstPic});
+    </insert>
+    <insert id="batchInsertParagraphs" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+        insert into paragraph(work_id, create_time, update_time, content, pic) values
+        <foreach collection="list" item="item" index="index" open="(" close=")" separator=",">
+            #{item.workId}, now(), now(), #{item.content}, #{item.pic}
+        </foreach>
+    </insert>
+    <select id="getWorkList" resultType="com.aitest.jim.aipicbookserver.domain.work.WorkPO">
+        select *
+        from work
+        where user_id = #{userId}
+    </select>
+    <select id="queryById" resultType="com.aitest.jim.aipicbookserver.domain.work.WorkPO">
+        select *
+        from work
+        where id = #{id}
+    </select>
+    <select id="queryParaGraphsByWorkId" resultType="com.aitest.jim.aipicbookserver.domain.work.ParagraphPO">
+        select *
+        from paragraph
+        where work_id = #{workId}
+    </select>
+</mapper>
