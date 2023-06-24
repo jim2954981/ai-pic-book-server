@@ -3,6 +3,7 @@ package com.aitest.jim.aipicbookserver.userinterface.vo;
 import com.aitest.jim.aipicbookserver.domain.work.ParagraphDomain;
 import com.aitest.jim.aipicbookserver.domain.work.WorkDomain;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -18,8 +19,10 @@ public class WorkVoConverter {
 	public WorkVO convertFromDomain(WorkDomain workDomain) {
 		WorkVO workVO = new WorkVO().setId(workDomain.getId()).setUserId(workDomain.getUserId()).setTitle(workDomain.getTitle())
 				.setCreateTime(new SimpleDateFormat("yyyy年MM月dd日").format(new Date(workDomain.getCreateTime()))).setFirstPic(workDomain.getFirstPic());
-		List<ParaGraphVO> paraGraphVOList = workDomain.getParagraphs().stream().map(this::convertFromDomain).collect(Collectors.toList());
-		workVO.setParaGraphVOList(paraGraphVOList);
+		if (!CollectionUtils.isEmpty(workDomain.getParagraphs())) {
+			List<ParaGraphVO> paraGraphVOList = workDomain.getParagraphs().stream().map(this::convertFromDomain).collect(Collectors.toList());
+			workVO.setParaGraphVOList(paraGraphVOList);
+		}
 		return workVO;
 	}
 

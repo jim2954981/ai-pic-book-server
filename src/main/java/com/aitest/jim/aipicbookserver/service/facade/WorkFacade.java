@@ -14,6 +14,7 @@ import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -70,12 +71,17 @@ public class WorkFacade {
 		return workDomain;
 	}
 
-	@Transactional
+	@Transactional(rollbackFor = Exception.class)
 	public void saveWork(WorkDomain workDomain, List<ParagraphDomain> paragraphDomainList) {
 		WorkPO workPO = WorkDomain.toPO(workDomain);
 		workMapper.insertWork(workPO);
 		workDomain.setId(workPO.getId());
-		List<ParagraphPO> paragraphPOS = paragraphDomainList.stream().map(ParagraphDomain::toPO).collect(Collectors.toList());
+		List<ParagraphPO> paragraphPOS = new ArrayList<>();
+		for (ParagraphDomain paragraphDomain : paragraphDomainList) {
+			ParagraphPO paragraphPO = ParagraphDomain.toPO(paragraphDomain);
+			paragraphPO.setWorkId(workDomain.getId());
+			paragraphPOS.add(paragraphPO);
+		}
 		workMapper.batchInsertParagraphs(paragraphPOS);
 	}
 }
