@@ -7,7 +7,7 @@ import java.util.Arrays;
  * @since 2023-06-21  00:00
  **/
 public enum CharacterEnum {
-	FOX(1, "小狐狸"), PANDA(2, "小熊猫"), CAT(3, "小猫咪"), RABBIT(4, "小白兔");
+	FOX(1, "小女孩"), PANDA(2, "小男孩");
 	private final int id;
 	private final String name;
 
