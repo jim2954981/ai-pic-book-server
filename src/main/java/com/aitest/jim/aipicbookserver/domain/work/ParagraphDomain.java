@@ -1,6 +1,7 @@
 package com.aitest.jim.aipicbookserver.domain.work;
 
 import java.sql.Timestamp;
+import java.util.Base64;
 
 /**
  * @author Liuyi58
@@ -62,11 +63,11 @@ public class ParagraphDomain {
 
 	public static ParagraphPO toPO(ParagraphDomain domain) {
 		return new ParagraphPO().setContent(domain.getContent()).setCreateTime(new Timestamp(domain.getCreateTime())).setUpdateTime(new Timestamp(domain.getUpdateTime()))
-				.setOrder(domain.getOrder()).setPic(domain.getPic()).setWorkId(domain.getWorkId());
+				.setOrder(domain.getOrder()).setPic(Base64.getDecoder().decode(domain.getPic())).setWorkId(domain.getWorkId());
 	}
 
 	public static ParagraphDomain fromPO(ParagraphPO paragraphPO) {
-		return new ParagraphDomain().setId(paragraphPO.getId()).setWorkId(paragraphPO.getWorkId()).setPic(paragraphPO.getPic()).setOrder(paragraphPO.getOrder())
+		return new ParagraphDomain().setId(paragraphPO.getId()).setWorkId(paragraphPO.getWorkId()).setPic(Base64.getEncoder().encodeToString(paragraphPO.getPic())).setOrder(paragraphPO.getOrder())
 				.setContent(paragraphPO.getContent()).setCreateTime(paragraphPO.getCreateTime().getTime()).setUpdateTime(paragraphPO.getUpdateTime().getTime());
 	}
 

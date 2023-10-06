@@ -1,6 +1,7 @@
 package com.aitest.jim.aipicbookserver.domain.work;
 
 import java.sql.Timestamp;
+import java.util.Arrays;
 
 /**
  * @author Liuyi58
@@ -13,7 +14,7 @@ public class ParagraphPO {
 	private Timestamp createTime;
 	private Timestamp updateTime;
 	private String content;
-	private String pic;
+	private byte[] pic;
 
 	public long getId() {
 		return id;
@@ -69,11 +70,11 @@ public class ParagraphPO {
 		return this;
 	}
 
-	public String getPic() {
+	public byte[] getPic() {
 		return pic;
 	}
 
-	public ParagraphPO setPic(String pic) {
+	public ParagraphPO setPic(byte[] pic) {
 		this.pic = pic;
 		return this;
 	}
@@ -87,7 +88,7 @@ public class ParagraphPO {
 				", createTime=" + createTime +
 				", updateTime=" + updateTime +
 				", content='" + content + '\'' +
-				", pic='" + pic + '\'' +
+				", pic=" + Arrays.toString(pic) +
 				'}';
 	}
 }
